@@ -4,9 +4,11 @@ library(RSQLite)
 
 # Define fields to save data to
 fields_main <- c("date", "duration", "level")
-fields_strength <- c("muscle", "workout")
-fields_endurance <- c("endurance_type", "distance", "place")
+fields_strength <- c("muscle", "workout", "comment")
+fields_endurance <- c("endurance_type", "distance", "place", "comment")
+fields_climbing <- c("climbing_type", "focus", "comment")
 fields_other <- c("other_type", "comment")
+fields_rest <- c("rest_activity", "comment")
 
 
 # Define server logic
@@ -24,13 +26,13 @@ shinyServer(function(input, output, session) {
         data
     })
     
-    # When the Submit button is clicked, save the form data
+    # When the Submit button is clicked, save the form data and reset
     observeEvent(input$submit, {
         saveDataMain(formDataMain())
         saveDataType(formDataType(), input$type)
+        reset("form")
     })
-    
-    
+
     # Show the previous responses
     # (update with current response when Submit is clicked)
     output$responses_main <- DT::renderDataTable({
@@ -48,9 +50,19 @@ shinyServer(function(input, output, session) {
         loadDataType("endurance")
     })
     
+    output$responses_climbing <- DT::renderDataTable({
+        input$submit
+        loadDataType("climbing")
+    })
+    
     output$responses_other <- DT::renderDataTable({
         input$submit
         loadDataType("other")
+    })
+    
+    output$responses_rest <- DT::renderDataTable({
+        input$submit
+        loadDataType("rest")
     })
     
 })

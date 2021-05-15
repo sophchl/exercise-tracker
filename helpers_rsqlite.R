@@ -27,7 +27,7 @@ saveDataMain <- function(data) {
 }
 
 saveDataType <- function(data, type) {
-  
+    
   # Connect to the database
   db <- dbConnect(SQLite(), sqlitePath)
   
@@ -47,6 +47,7 @@ saveDataType <- function(data, type) {
   # Submit the update query and disconnect
   dbGetQuery(db, query)
   dbDisconnect(db)
+
 }
 
 loadDataMain <- function() {
@@ -64,7 +65,7 @@ loadDataMain <- function() {
 }
 
 loadDataType <- function(type) {
-  
+
   # Connect to the database
   db <- dbConnect(SQLite(), sqlitePath)
   
@@ -76,7 +77,7 @@ loadDataType <- function(type) {
   data <- dbGetQuery(db, query)
   dbDisconnect(db)
   data
+    
 }
 
 ## load and plot ---------
-

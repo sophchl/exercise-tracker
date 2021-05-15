@@ -6,31 +6,47 @@ library(lubridate)
 conn <- dbConnect(RSQLite::SQLite(), "shiny-exercise/data/exerciseDB.db")
 
 responses_main <- data.frame(id = numeric(),
-                       date = ymd(character()),
-                       duration = dhours(numeric()),
-                       level = factor(character())
+                             date = ymd(character()),
+                             duration = dhours(numeric()),
+                             level = factor(character())
                        
 )
 
 responses_strength <- data.frame(id = numeric(),
-                       muscle = factor(character()),
-                       workout = character()
+                                 muscle = factor(character()),
+                                 workout = character(),
+                                 comment = character()
 )
 
 responses_endurance <- data.frame(id = numeric(),
-                        endurance_type = factor(character()),
-                        distance = numeric(),
-                        place = character()
+                                  endurance_type = factor(character()),
+                                  distance = numeric(),
+                                  place = character(),
+                                  comment = character()
+)
+
+responses_climbing <- data.frame(id = numeric(),
+                                 climbing_type = factor(character()),
+                                 focus = factor(character()),
+                                 comment = character()
 )
 
 responses_other <- data.frame(id = numeric(),
-                    other_type = factor(character()),
-                    comment = character())
+                              other_type = factor(character()),
+                              comment = character()
+)
+
+responses_rest <- data.frame(id = numeric(),
+                             rest_activity = factor(character()),
+                             comment = character()
+)
 
 dbWriteTable(conn, "responses_main", responses_main)
 dbWriteTable(conn, "responses_strength", responses_strength)
 dbWriteTable(conn, "responses_endurance", responses_endurance)
+dbWriteTable(conn, "responses_climbing", responses_climbing)
 dbWriteTable(conn, "responses_other", responses_other)
+dbWriteTable(conn, "responses_rest", responses_rest)
 
 dbListTables(conn)
 dbDisconnect(conn)
