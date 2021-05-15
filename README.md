@@ -17,12 +17,11 @@ To launch app:
 
 Current layout
 
-![Picture1](https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic1.jpg?raw=true)
-<img src="https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic1.jpg?raw=true" width="100" height="100">
+<img src="https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic1.jpg?raw=true" width="400" height="400">
 
 The input fields adjust according to the exercise type selected, e.g. for climbing:
 
-![Picture1](https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic2.jpg?raw=true)
+<img src="https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic2.jpg?raw=true" width="100" height="300">
 
 Data storage
 - one table per exercise type
