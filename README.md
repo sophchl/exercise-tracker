@@ -18,6 +18,7 @@ To launch app:
 Current layout
 
 ![Picture1](https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic1.jpg?raw=true)
+<img src="https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic1.jpg?raw=true" width="100" height="100">
 
 The input fields adjust according to the exercise type selected, e.g. for climbing:
 
