@@ -61,7 +61,9 @@ loadDataMain <- function() {
   # Submit the fetch query and disconnect
   data <- dbGetQuery(db, query)
   dbDisconnect(db)
-  data
+  data <- data %>% 
+    mutate(date = as.Date(date, origin = lubridate::origin))
+  data 
 }
 
 loadDataType <- function(type) {
@@ -81,3 +83,34 @@ loadDataType <- function(type) {
 }
 
 ## load and plot ---------
+
+# date_range <- values
+# data_test <- dbGetQuery(db, "SELECT * FROM responses_main")
+
+plotExerciseLevels <- function(date_range) {
+  
+  # Connect to the database
+  db <- dbConnect(SQLite(), sqlitePath)
+  
+  # fetch the data needed
+  query <- sprintf("SELECT * FROM responses_main WHERE date BETWEEN %s AND %s", 
+                   date_range[1] %>% as.numeric(), date_range[2] %>% as.numeric())
+  data <- dbGetQuery(db, query)
+  dbDisconnect(db)
+  
+  # plot data
+  plot <- data %>% 
+    mutate(level = factor(level,
+                          levels = c("very_low", "low", "medium", "high", "very_high", "extreme"),
+                          labels = c("very low", "low", "medium", "high", "very high", "extreme"),
+                          ordered = TRUE),
+           date = as.Date(date, origin = lubridate::origin)) %>% 
+    ggplot(aes(x = date, y = level)) + 
+    geom_point(aes(color = factor(type)), alpha = .5, size = 8) +
+    theme_minimal()
+  
+  # disconnect
+  plot
+}
+
+# 

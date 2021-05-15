@@ -1,9 +1,10 @@
 library(shiny)
 library(dplyr)
 library(RSQLite)
+library(ggplot2)
 
 # Define fields to save data to
-fields_main <- c("date", "duration", "level")
+fields_main <- c("date", "type", "duration", "level")
 fields_strength <- c("muscle", "workout", "comment")
 fields_endurance <- c("endurance_type", "distance", "place", "comment")
 fields_climbing <- c("climbing_type", "focus", "comment")
@@ -16,6 +17,7 @@ shinyServer(function(input, output, session) {
     
     # Whenever a field from main is filled, aggregate main form data
     formDataMain <- reactive({
+        input$date %>% as.Date() %>% as.numeric()
         data <- sapply(fields_main, function(x) input[[x]])
         data
     })
@@ -31,6 +33,12 @@ shinyServer(function(input, output, session) {
         saveDataMain(formDataMain())
         saveDataType(formDataType(), input$type)
         reset("form")
+    })
+    
+    # Graphics
+    output$exercise_levels <- renderPlot({
+        input$submit
+        plotExerciseLevels(input$date_range_level)
     })
 
     # Show the previous responses

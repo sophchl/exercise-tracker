@@ -15,7 +15,9 @@ shinyUI(fluidPage(
         # Select inputs main
         dateInput("date",
                   hr("Date input"),
-                  min = "2021-01-01"),
+                  min = "2021-01-01",
+                  weekstart = 1,
+                  format = "yyyy-mm-dd"),
         checkboxInput("rest_day",
                       "Rest day",
                       value = FALSE),
@@ -130,6 +132,17 @@ shinyUI(fluidPage(
     # Submit inputs
     actionButton("submit", "Submit"),
     tags$hr(),
+    
+    # Graphs
+    h2("Exercise Level over Time"),
+    dateRangeInput("date_range_level",
+                   hr("Select the date range for analysis"),
+                   min = "2021-01-01", 
+                   max = Sys.Date(), 
+                   start = Sys.Date() -7,
+                   end = Sys.Date()),
+    # plot
+    plotOutput("exercise_levels"),
     
     # Display data
     h4("Main"),
