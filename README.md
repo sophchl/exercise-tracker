@@ -21,7 +21,7 @@ Current layout
 
 The input fields adjust according to the exercise type selected, e.g. for climbing:
 
-![Picture1](https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic2.jpg?raw=true)
+![Picture1](https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic2.jpg?raw=true){width=50%}
 
 Data storage
 - one table per exercise type
