@@ -9,7 +9,7 @@ fields_endurance <- c("endurance_type", "distance", "place")
 fields_other <- c("other_type", "comment")
 
 
-# Define server logic required to draw a histogram
+# Define server logic
 shinyServer(function(input, output, session) {
     
     # Whenever a field from main is filled, aggregate main form data

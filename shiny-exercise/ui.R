@@ -3,8 +3,8 @@ library(shiny)
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
     
-    # Where to store data
-    DT::dataTableOutput("responses_main", width = 500), 
+    # Display data
+    DT::dataTableOutput("responses_main", width = 500),
     DT::dataTableOutput("responses_strength", width = 500),
     DT::dataTableOutput("responses_endurance", width = 500),
     DT::dataTableOutput("responses_other", width = 500), tags$hr(),
@@ -12,7 +12,7 @@ shinyUI(fluidPage(
     # Application title
     titlePanel("Track your Exercise!"),
     
-    # Select inputs
+    # Select inputs main
     dateInput("date",
               hr("Date input"),
               min = "2021-01-01"),
@@ -35,6 +35,8 @@ shinyUI(fluidPage(
                                "high" = "high",
                                "very high" = "very_high",
                                "extreme" = "extreme")),
+    
+    # Select inputs conditional
     h3("Exercise Information"),
     conditionalPanel(
         condition = "input.type == 'strength'",
@@ -75,5 +77,7 @@ shinyUI(fluidPage(
 
     # Submit inputs
     actionButton("submit", "Submit")
+    
+    # Display graphics of outputs
 
 ))
