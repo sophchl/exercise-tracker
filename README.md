@@ -18,3 +18,11 @@ To launch app:
 Current layout
 
 ![Picture1](https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic1.jpg?raw=true)
+
+The input fields adjust according to the exercise type selected, e.g. for climbing:
+
+![Picture1](https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic2.jpg?raw=true)
+
+Data storage
+- one table per exercise type
+- main_id: rowid in responses_main, and id in each respective exercise type table
