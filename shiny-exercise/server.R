@@ -1,15 +1,12 @@
 library(shiny)
 library(dplyr)
-#library(RSQLite)
-
-#sqlitePath <- "/data/exerciseDB.db"
-#table <- "responses"
+library(RSQLite)
 
 # Define fields to save data to
 fields_main <- c("date", "duration", "level")
 fields_strength <- c("muscle", "workout")
 fields_endurance <- c("endurance_type", "distance", "place")
-fields_other <- c("other_type", "comments")
+fields_other <- c("other_type", "comment")
 
 
 # Define server logic required to draw a histogram

@@ -68,7 +68,7 @@ shinyUI(fluidPage(
         selectInput("other_type",
                     hr("Type of Other Exercise"),
                     choices = list("hike", "climb", "ski", "other")),
-        textInput("comments",
+        textInput("comment",
                   hr("Comments"),
                   value = "Enter text..")
     ),
