@@ -9,6 +9,10 @@ shinyUI(fluidPage(
     # Application title
     titlePanel("Track your Exercise!"),
     
+    sidebarLayout(
+    
+    sidebarPanel(
+    
     div(
         id = "form",
         
@@ -131,10 +135,14 @@ shinyUI(fluidPage(
     
     # Submit inputs
     actionButton("submit", "Submit"),
-    tags$hr(),
+    tags$hr()
+    
+    ),
+    
+    mainPanel(
     
     # Graphs
-    h2("Exercise Level over Time"),
+    h3("Visualization"),
     dateRangeInput("date_range_level",
                    hr("Select the date range for analysis"),
                    min = "2021-01-01", 
@@ -144,7 +152,10 @@ shinyUI(fluidPage(
     # plot
     plotOutput("exercise_levels"),
     
+    )),
+    
     # Display data
+    h3("Data"),
     h4("Main"),
     DT::dataTableOutput("responses_main", width = 500),
     h4("Strength"),

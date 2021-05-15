@@ -107,6 +107,7 @@ plotExerciseLevels <- function(date_range) {
            date = as.Date(date, origin = lubridate::origin)) %>% 
     ggplot(aes(x = date, y = level)) + 
     geom_point(aes(color = factor(type)), alpha = .5, size = 8) +
+    ggtitle("Exercise Level over Time") +
     theme_minimal()
   
   # disconnect
