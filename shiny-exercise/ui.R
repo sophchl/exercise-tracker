@@ -1,6 +1,12 @@
-library(shiny)
 library(shinyjs)
 library(bslib)
+library(shiny)
+library(dplyr)
+library(tidyr)
+library(RSQLite)
+library(ggplot2)
+library(plotly)
+library(scales)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -35,11 +41,17 @@ shinyUI(fluidPage(
                 conditionalPanel(
                     condition = "input.rest_day == 0",
                     
-                    sliderInput("duration",
+                    sliderInput("duration_h",
                                 hr("Duration in hours"),
                                 min = 0,
                                 max = 6,
-                                step = 0.25,
+                                step = 1,
+                                value = 0),
+                    sliderInput("duration_m",
+                                hr("Duration in minutes"),
+                                min = 0,
+                                max = 60,
+                                step = 5,
                                 value = 0),
                     selectInput("level",
                                 hr("How high was the exercise level?"),
@@ -172,7 +184,7 @@ shinyUI(fluidPage(
         
         sidebarPanel(
             h3("Need to modify something?"), tags$hr(),
-            p("In case you need to change an entry, you can do so by id (rownumber of the main dataset). So far a quite basic implementation - you have to enter the columns and variable names as stored in the SQLite database."),
+            p("In case you need to change an entry, you can do so by id (rownumber of the main dataset). So far a quite basic implementation - you have to enter the columns and variable names as stored in the SQLite database and put strings in quotation marks."),
             selectInput("table_update",
                         hr("Which table needs to be updated?"),
                         choices = list("Main" = "responses_main",

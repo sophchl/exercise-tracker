@@ -1,12 +1,15 @@
 library(shiny)
+library(bslib)
+library(shiny)
 library(dplyr)
 library(tidyr)
 library(RSQLite)
 library(ggplot2)
 library(plotly)
+library(scales)
 
 # Define fields to save data to
-fields_main <- c("date", "type", "duration", "level")
+fields_main <- c("date", "type", "duration_h", "duration_m", "level")
 fields_strength <- c("muscle", "workout", "comment")
 fields_endurance <- c("endurance_type", "distance", "place", "comment")
 fields_climbing <- c("climbing_type", "focus", "comment")
@@ -52,7 +55,9 @@ shinyServer(function(input, output, session) {
     
     # Update
     observeEvent(input$update, {
-        updateData(input$table_update, input$id_update, input$variable_update, input$value_update, input$value_update_numeric)
+        updateData(table = input$table_update, id = input$id_update, 
+                   variable = input$variable_update, new_value = input$value_update, 
+                   value_is_numeric = input$value_update_numeric)
     })
 
     # Show the previous responses
@@ -77,6 +82,7 @@ shinyServer(function(input, output, session) {
     
     output$responses_climbing <- DT::renderDataTable({
         input$submit
+        input$update
         loadDataType("climbing")
     })
     

@@ -154,7 +154,8 @@ plotExerciseLevels2 <- function(date_range) {
     left_join(other_data, by = c("rowid" = "id")) %>% 
     left_join(rest_data, by = c("rowid" = "id")) %>% 
     unite("all_types", muscle:rest_activity, na.rm = TRUE) %>% 
-    mutate(all_types = recode(all_types, "NULL" = "none"))
+    mutate(all_types = recode(all_types, "NULL" = "none"),
+           duration = round(sum(duration_h, duration_m/60),2))
   
   # plot data
   plot <- data_all %>%
@@ -210,9 +211,9 @@ plotExerciseOverview <- function(date_range) {
     left_join(other_data, by = c("rowid" = "id")) %>% 
     left_join(rest_data, by = c("rowid" = "id")) %>% 
     unite("all_types", muscle:rest_activity, na.rm = TRUE) %>% 
-    mutate(all_types = recode(all_types, "NULL" = "none"))
-  
-  
+    mutate(all_types = recode(all_types, "NULL" = "none"),
+           duration = round(sum(duration_h, duration_m/60),2))
+
   plot <- data_all %>% 
     plot_ly(x = ~type, type = "histogram", color = ~all_types) %>% 
     layout(barmode = "overlay")

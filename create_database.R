@@ -6,7 +6,8 @@ conn <- dbConnect(RSQLite::SQLite(), "shiny-exercise/data/exerciseDB.db")
 
 responses_main <- data.frame(date = numeric(),
                              type = character(),
-                             duration = numeric(),
+                             duration_h = numeric(),
+                             duration_m = numeric(),
                              level = character()
                        
 )
