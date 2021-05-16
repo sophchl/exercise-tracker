@@ -1,7 +1,9 @@
 library(shiny)
 library(dplyr)
+library(tidyr)
 library(RSQLite)
 library(ggplot2)
+library(plotly)
 
 # Define fields to save data to
 fields_main <- c("date", "type", "duration", "level")
@@ -36,25 +38,40 @@ shinyServer(function(input, output, session) {
     })
     
     # Graphics
-    output$exercise_levels <- renderPlot({
+    output$exercise_levels <- renderPlotly({
         input$submit
-        plotExerciseLevels(input$date_range_level)
+        input$update
+        plotExerciseLevels2(input$date_range_level)
+    })
+    
+    output$exercise_overview <- renderPlotly({
+        input$submit
+        input$update
+        plotExerciseOverview(input$date_range_overview)
+    })
+    
+    # Update
+    observeEvent(input$update, {
+        updateData(input$table_update, input$id_update, input$variable_update, input$value_update, input$value_update_numeric)
     })
 
     # Show the previous responses
     # (update with current response when Submit is clicked)
     output$responses_main <- DT::renderDataTable({
         input$submit
+        input$update
         loadDataMain()
     })
     
     output$responses_strength <- DT::renderDataTable({
         input$submit
+        input$update
         loadDataType("strength")
     })
     
     output$responses_endurance <- DT::renderDataTable({
         input$submit
+        input$update
         loadDataType("endurance")
     })
     
@@ -65,11 +82,13 @@ shinyServer(function(input, output, session) {
     
     output$responses_other <- DT::renderDataTable({
         input$submit
+        input$update
         loadDataType("other")
     })
     
     output$responses_rest <- DT::renderDataTable({
         input$submit
+        input$update
         loadDataType("rest")
     })
     
