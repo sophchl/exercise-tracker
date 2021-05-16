@@ -4,7 +4,7 @@ A shiny app that allows to enter data on exercise and visualizes the result.
 
 The data is stored locally in a SQLite database and will hence be available whenever the app in launched again on the same device.
 
-Work in progress.
+_*Work in progress*_
 
 To launch app: 
 - The first time
