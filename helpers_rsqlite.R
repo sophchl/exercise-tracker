@@ -4,6 +4,9 @@
 # sqlitePath <- "shiny-exercise/data/exerciseDB.db"
 # data = data.frame(matrix(c(1:4),2,2))
 # type = "strength"
+# date_range <- c(Sys.Date()-10, Sys.Date())
+# data_test <- dbGetQuery(db, "SELECT * FROM responses_main")
+
 
 sqlitePath <- "data/exerciseDB.db"
 table_main <- "responses_main"
@@ -83,9 +86,6 @@ loadDataType <- function(type) {
 }
 
 ## load and plot ---------
-
-# date_range <- values
-# data_test <- dbGetQuery(db, "SELECT * FROM responses_main")
 
 plotExerciseLevels <- function(date_range) {
   
@@ -215,8 +215,9 @@ plotExerciseOverview <- function(date_range) {
            duration = round(sum(duration_h, duration_m/60),2))
 
   plot <- data_all %>% 
-    plot_ly(x = ~type, type = "histogram", color = ~all_types) %>% 
-    layout(barmode = "overlay")
+    plot_ly(x = ~type, type = "histogram", 
+            color = ~all_types, colors = "Set2") %>% 
+    layout(barmode = "stack")
   
   plot
   

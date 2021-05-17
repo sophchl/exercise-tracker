@@ -107,7 +107,7 @@ shinyUI(fluidPage(
                                     choices = list("Indoor Lead" = "lead_indoor",
                                                    "Outdoor Lead" = "lead_outdoor",
                                                    "Indoor Bouldering" = "bouldering_indoor",
-                                                   "Outdoor Boudldering" = "bouldering_outdoor",
+                                                   "Outdoor Bouldering" = "bouldering_outdoor",
                                                    "Multipitch" = "multipitch",
                                                    "Toppas" = "toppas")
                         ),
@@ -129,6 +129,7 @@ shinyUI(fluidPage(
                                                    "Skiing" = "ski",
                                                    "Canoeing" = "canoeing",
                                                    "Yoga" = "yoga",
+                                                   "Talking a walk" = "walking_chill",
                                                    "Other" = "other")
                         )
                     )
