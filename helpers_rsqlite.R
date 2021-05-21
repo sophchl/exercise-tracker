@@ -170,6 +170,18 @@ plotExerciseLevels2 <- function(date_range) {
                           '</br> Duration: ', duration, 'h'),
             hovertemplate = paste('%{text}'),
             marker = list(size = ~duration %>% rescale(to = c(15,30))))
+
+  # plot <- data_all %>%
+  #   mutate(level = factor(level,
+  #                         levels = c("very_low", "low", "medium", "high", "very_high", "extreme"),
+  #                         labels = c("very low", "low", "medium", "high", "very high", "extreme"),
+  #                         ordered = TRUE),
+  #          date = as.Date(date, origin = lubridate::origin)) %>%
+  #   ggplot((aes(x = date, y = level, colors = type, size = duration))) +
+  #   geom_jitter(aes(text = paste('</br> Type: ', all_types,
+  #                                '</br> Duration: ', duration, 'h'))) %>% 
+  #   ggplotly()
+  
   plot
   
 }

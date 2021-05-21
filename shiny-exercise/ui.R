@@ -130,6 +130,7 @@ shinyUI(fluidPage(
                                                    "Canoeing" = "canoeing",
                                                    "Yoga" = "yoga",
                                                    "Talking a walk" = "walking_chill",
+                                                   "Stretching" = "streching",
                                                    "Other" = "other")
                         )
                     )
