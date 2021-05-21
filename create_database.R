@@ -51,7 +51,27 @@ dbWriteTable(conn, "responses_rest", responses_rest)
 dbListTables(conn)
 dbDisconnect(conn)
 
-# factor(levels = c("very_low", "low", "medium", "high", "very_high", "extreme"), ordered = TRUE) 
-# factor(levels = c("run", "bike", "walk"), ordered = FALSE)
-# factor(levels = c("lead_indoor", "lead_outdoor", "bouldering_indoor", "bouldering_outdoor", "multipitch", "toppas"), ordered = FALSE)
-# factor(levels = c("hike", "ski", "canoeing", "yoga", "other"), ordered = FALSE),
+# to remove values from database
+# db <- dbConnect(RSQLite::SQLite(), "shiny-exercise/data/exerciseDB.db")
+
+all_dates <- dbGetQuery(db, "SELECT date FROM responses_main") %>% 
+  pull(date) %>% 
+  as.Date(origin = lubridate::origin)
+dates_keep <- all_dates[1:7]
+smallest_date <- min(dates_keep) %>% as.numeric()
+largest_date <- max(dates_keep) %>% as.numeric()
+dbGetQuery(db,"DELETE FROM responses_main WHERE date < smallest_date OR date > largest_date")
+query <- sprintf("DELETE FROM responses_main WHERE date < %s OR date > %s",
+                 smallest_date, largest_date)
+dbExecute(db, query)
+  
+all_my_other_tables <- dbListTables(db)[dbListTables(db) != "responses_main"]
+for (t in all_my_other_tables){
+
+query <- sprintf("DELETE FROM %s WHERE id IN (SELECT %s.id FROM %s LEFT JOIN responses_main ON %s.id=responses_main.rowid WHERE responses_main.rowid IS NULL)",
+                 t,t,t,t)
+dbExecute(db, query)
+
+}
+  
+dbDisconnect(db)
