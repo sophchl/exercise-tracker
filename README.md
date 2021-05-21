@@ -8,8 +8,8 @@ _Work in progress_
 
 To launch app
 - The first time
-  - download files and remove the current database with the example data
-  - run create_datanbase.R to create a new database
+  - download files
+  - run create_datanbase.R to create a new database (maybe need to add folder "data" in "shiny-exercise"
 
 - Every time the app is used
   - run helters_rsqlite.R to get the helper function in the environment
