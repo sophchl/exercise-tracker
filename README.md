@@ -12,11 +12,10 @@ To launch app
   - run create_datanbase.R to create a new database (dependingon path name need to add folder "data" in "shiny-exercise")
 
 - Every time the app is used
-  - run helters_rsqlite.R to get the helper function in the environment
   - run app
   - enter exercise data in sidebar panel and submit
 
-Current layout (data is just exemplary)
+Current layout (data is exemplary)
 
 <img src="https://github.com/sophchl/exercise-tracker/blob/master/documentation/pic1.jpg?raw=true" width="700" height="500">
 
