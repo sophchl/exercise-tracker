@@ -11,6 +11,9 @@
 sqlitePath <- "data/exerciseDB.db"
 table_main <- "responses_main"
 
+
+## save and load data ---------
+
 saveDataMain <- function(data) {
   
   # Connect to the database
@@ -25,9 +28,10 @@ saveDataMain <- function(data) {
   )
   
   # Submit the update query and disconnect
-  dbGetQuery(db, query)
+  dbExecute(db, query)
   dbDisconnect(db)
 }
+
 
 saveDataType <- function(data, type) {
     
@@ -48,10 +52,11 @@ saveDataType <- function(data, type) {
   )
   
   # Submit the update query and disconnect
-  dbGetQuery(db, query)
+  dbExecute(db, query)
   dbDisconnect(db)
 
 }
+
 
 loadDataMain <- function() {
   
@@ -66,8 +71,10 @@ loadDataMain <- function() {
   dbDisconnect(db)
   data <- data %>% 
     mutate(date = as.Date(date, origin = lubridate::origin))
+  
   data 
 }
+
 
 loadDataType <- function(type) {
 
@@ -81,43 +88,14 @@ loadDataType <- function(type) {
   # Submit the fetch query and disconnect
   data <- dbGetQuery(db, query)
   dbDisconnect(db)
+  
   data
-    
 }
+
 
 ## load and plot ---------
 
 plotExerciseLevels <- function(date_range) {
-  
-  # Connect to the database
-  db <- dbConnect(SQLite(), sqlitePath)
-  
-  # fetch the data needed
-  query <- sprintf("SELECT * FROM responses_main WHERE date BETWEEN %s AND %s", 
-                   date_range[1] %>% as.numeric(), date_range[2] %>% as.numeric())
-  data <- dbGetQuery(db, query)
-  dbDisconnect(db)
-  
-  # plot data
-  plot <- data %>% 
-    mutate(level = factor(level,
-                          levels = c("very_low", "low", "medium", "high", "very_high", "extreme"),
-                          labels = c("very low", "low", "medium", "high", "very high", "extreme"),
-                          ordered = TRUE),
-           date = as.Date(date, origin = lubridate::origin)) %>% 
-    ggplot(aes(x = date, y = level)) + 
-    geom_point(aes(color = factor(type), size = duration), alpha = .5) +
-    scale_size_continuous(name = "Duration", range = c(8, 15)) + 
-    scale_color_brewer("Exercise type", palette = "Set2") +
-    guides(colour = guide_legend(override.aes = list(size = 8))) +
-    ggtitle("Exercise Level over Time") +
-    theme_minimal()
-  
-  # disconnect
-  plot
-}
-
-plotExerciseLevels2 <- function(date_range) {
   
   # Connect to the database
   db <- dbConnect(SQLite(), sqlitePath)
@@ -170,21 +148,11 @@ plotExerciseLevels2 <- function(date_range) {
                           '</br> Duration: ', duration, 'h'),
             hovertemplate = paste('%{text}'),
             marker = list(size = ~duration %>% rescale(to = c(15,30))))
-
-  # plot <- data_all %>%
-  #   mutate(level = factor(level,
-  #                         levels = c("very_low", "low", "medium", "high", "very_high", "extreme"),
-  #                         labels = c("very low", "low", "medium", "high", "very high", "extreme"),
-  #                         ordered = TRUE),
-  #          date = as.Date(date, origin = lubridate::origin)) %>%
-  #   ggplot((aes(x = date, y = level, colors = type, size = duration))) +
-  #   geom_jitter(aes(text = paste('</br> Type: ', all_types,
-  #                                '</br> Duration: ', duration, 'h'))) %>% 
-  #   ggplotly()
   
   plot
   
 }
+
 
 plotExerciseOverview <- function(date_range) {
   
@@ -234,7 +202,9 @@ plotExerciseOverview <- function(date_range) {
   plot
   
 }
-## update ---------
+
+
+## update and delete data ---------
 
 updateData <- function(table, id, variable, new_value, value_is_numeric) {
   
@@ -242,25 +212,72 @@ updateData <- function(table, id, variable, new_value, value_is_numeric) {
   db <- dbConnect(SQLite(), sqlitePath)
   
   # query
-  if(value_is_numeric == TRUE){
+  if (value_is_numeric == TRUE){
     new_value <- as.numeric(new_value)
   }
   
   if (table == "responses_main"){
-    
     query <- sprintf("UPDATE responses_main SET %s = %s WHERE rowid == %s",
                      variable, new_value, id)
   } else {
     query <- sprintf("UPDATE %s SET %s = %s WHERE id == %s",
                      table, variable, new_value, id)
   }
-  
-  dbSendQuery(db, query)
+
+  dbExecute(db, query)
   dbDisconnect(db)
   
 }
 
-
+deleteData <- function(id) {
   
+  # Connect to the database
+  db <- dbConnect(SQLite(), sqlitePath)
+  
+  # query to delete from main table
+  query <- sprintf("DELETE FROM responses_main WHERE rowid == %s",
+                   id)
+  dbExecute(db, query)
+  
+  # delete matching ID in other tables
+  all_tables <- dbListTables(db)
+  type_tables <- all_tables[all_tables != "responses_main"]
+  
+  for (table in type_tables){
+    query <- paste("DELETE from", table, "WHERE id ==", id)
+    dbExecute(db, query)
+  }
+  
+  dbDisconnect(db)
+}
+
+returnRowId <- function(date){
+  
+  date <- as.numeric(date)
+  
+  # Connect to the database
+  db <- dbConnect(SQLite(), sqlitePath)
+  
+  # query
+  query <- sprintf("SELECT rowid from responses_main WHERE date == %s",
+                   date)
+  
+  data <- dbGetQuery(db, query)
+  dbDisconnect(db)
+  
+  # return rowid
+  rowid <- data[['rowid']]
+  
+  if (length(rowid) == 0){
+    values <- "empty"
+  } else {
+    values <- rowid
+  }
+  
+  output <- paste(c('The rowids for the date choosen are', values), collapse = " ")
+  
+  return(output)
+}
+
   
 

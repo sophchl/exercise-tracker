@@ -142,7 +142,8 @@ shinyUI(fluidPage(
                                        hr("Rest day activity"),
                                        choices = list("Walk" = "walk",
                                                       "Stretch" = "stretch",
-                                                      "Foam Roll" = "foam"))
+                                                      "Foam Roll" = "foam",
+                                                      "Slackline" = "slackline"))
                 ),
                 
                 # Comment for all
@@ -176,7 +177,7 @@ shinyUI(fluidPage(
                            max = Sys.Date(), 
                            start = Sys.Date() -30,
                            end = Sys.Date()),
-            plotlyOutput("exercise_overview"),
+            plotlyOutput("exercise_overview")
             
         )
     
@@ -185,8 +186,8 @@ shinyUI(fluidPage(
     sidebarLayout(
         
         sidebarPanel(
-            h3("Need to modify something?"), tags$hr(),
-            p("In case you need to change an entry, you can do so by id (rownumber of the main dataset). So far a quite basic implementation - you have to enter the columns and variable names as stored in the SQLite database and put strings in quotation marks."),
+            h3("Need to modify something?"),
+            p("In case you need to change an entry, you can do so by id. Put string entries in quotation marks. For the main table you need to look up the ID below."),
             selectInput("table_update",
                         hr("Which table needs to be updated?"),
                         choices = list("Main" = "responses_main",
@@ -207,7 +208,22 @@ shinyUI(fluidPage(
             checkboxInput("value_update_numeric",
                           "Value to be updated numeric?",
                           value = FALSE),
-            actionButton("update", "Update")
+            actionButton("update", "Update"),
+            
+            h3("Need to delete something?"),
+            numericInput("id_delete",
+                         hr("ID of the entry to be deleted"),
+                         value = "0"),
+            actionButton("delete", "Delete"),
+            
+            h3("Get ID for main table"),
+            p("For the main table the unique rowids are hidden, so you can look them up here by date."),
+            dateInput("date_rowid",
+                      hr("Date input"),
+                      min = "2021-01-01",
+                      weekstart = 1,
+                      format = "yyyy-mm-dd"),
+            textOutput("rowids_for_date")
             
             
         ),
@@ -227,7 +243,7 @@ shinyUI(fluidPage(
             DT::dataTableOutput("responses_other", width = 700), 
             h4("Rest"),
             DT::dataTableOutput("responses_rest", width = 700)
-        )
-    ),
-    
+        ),
+            
+    )
 ))
